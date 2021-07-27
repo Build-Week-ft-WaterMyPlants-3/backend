@@ -1,36 +1,33 @@
-const db = require("../data/db-config");
+const express = require('express')
+const cors = require('cors')
+const helmet = require('helmet')
+
+const usersRouter = require('./users/users-router')
+const classesRouter = require('./classes/classes-router')
+
+const server = express()
+server.use(express.json())
+server.use(helmet())
+server.use(cors())
+
+server.use("/api/users", usersRouter);
+server.use("/api/classes", classesRouter);
 
 
-function getAllPlants(){
-    return db("Plants")
-}
+//SANITY CHECK ENDPOINT
+// server.get("/", (req, res, next)=>{
+//     res.json({
+//         message: "API Up"
+//     })
+// })
 
-function getByPlantId(PlantId){
-    return db("Plants")
-            .where("PlantId", PlantId)
-}
 
-async function updatePlantByPlantId(UpdatedPlant){
-    await db("Plants")
-            .where("PlantId", PlantId)
-            .update(UpdatedPlant)
+//Global Error Handling 
+server.use((err, req, res, next)=>{
+    res.json({
+        message: err.message,
+        stack: err.stack
+    })
+})
 
-    return getByPlantId(UpdatedPlant.PlantId)
-}
-
- async function addPlant(plantToAdd){
-    const plantToAddId = await db("Plants")
-            .insert(plantToAdd)
-    return plantToAddId;
-}
-
-async function deletePlantByPlantId(PlantId){
-    await db("Plants")
-            .where("PlantId", PlantId)
-            .del()
-    return getAllPlants()
-}
-
-module.exports = {
-    getAllPlants, getByPlantId, updatePlantByPlantId, addPlant, deletePlantByPlantId
-}
+module.exports = server
