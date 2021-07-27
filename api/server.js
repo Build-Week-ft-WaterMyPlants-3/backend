@@ -1,18 +1,17 @@
-const express = require('express')
-const cors = require('cors')
-const helmet = require('helmet')
+const express = require("express");
+const cors = require("cors");
+const helmet = require("helmet");
 
-const usersRouter = require('./users/users-router')
-const classesRouter = require('./classes/classes-router')
+const usersRouter = require("./users/users-router");
+const plantsRouter = require("./plants/plants-router");
 
-const server = express()
-server.use(express.json())
-server.use(helmet())
-server.use(cors())
+const server = express();
+server.use(express.json());
+server.use(helmet());
+server.use(cors());
 
 server.use("/api/users", usersRouter);
-server.use("/api/classes", classesRouter);
-
+server.use("/api/classes", plantsRouter);
 
 //SANITY CHECK ENDPOINT
 // server.get("/", (req, res, next)=>{
@@ -21,13 +20,12 @@ server.use("/api/classes", classesRouter);
 //     })
 // })
 
+//Global Error Handling
+server.use((err, req, res, next) => {
+  res.json({
+    message: err.message,
+    stack: err.stack,
+  });
+});
 
-//Global Error Handling 
-server.use((err, req, res, next)=>{
-    res.json({
-        message: err.message,
-        stack: err.stack
-    })
-})
-
-module.exports = server
+module.exports = server;
