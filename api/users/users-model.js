@@ -1,4 +1,4 @@
-const db = require("../data/db-config");
+const db = require("../data/dbConfig");
 
 
 function getAllUsers(){
@@ -20,8 +20,6 @@ async function createUser(userToAdd){
     const userToAddId = await db("Users")
             .insert(userToAdd)
     return getUserByUserId(userToAddId);
-    // const [UserId] = await db("Users").insert(credentials)
-    // return getUserByUserId(UserId) ;
 }
 
 async function updateUserByUserId(UpdatedUser){
