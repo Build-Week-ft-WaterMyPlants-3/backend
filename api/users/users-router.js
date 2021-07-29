@@ -71,7 +71,7 @@ router.post("/login", (req, res) => {
 
   Users.getBy({ username })
     .then(([user]) => {
-      if (user && bcrypt.compareSync(password, user.User_Password)) {
+      if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user);
         res.status(200).json({
           user: user,
@@ -120,18 +120,5 @@ router.delete("/:UserId", (req, res) => {
       res.status(500).json({ message: err.message });
     });
 });
-
-// //[GET] Users Classes
-// router.get("/:UserId/classes", (req, res) => {
-//   const { UserId } = req.params;
-
-//   Users.getUsersClasses(UserId)
-//     .then((allClasses) => {
-//       res.status(200).json(allClasses);
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ message: err.message });
-//     });
-// });
 
 module.exports = router;
