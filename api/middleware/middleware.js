@@ -10,10 +10,13 @@ const checkRegisterPayload = (req, res, next) => {
 }
 
 const checkLoginPayload = (req, res, next) => {
-    if(!req.body.User_name || !req.body.password) {
-        res.status(400).json({ message: 'Username And Password Required' })
-    } else {
+    const { User_name, password } = req.body;
+    const valid = Boolean(User_name && password && typeof password === 'string')
+
+    if(valid) {
         next();
+    } else {
+        res.status(400).json({ message: 'Username And Password Required' })
     }
 }
 
