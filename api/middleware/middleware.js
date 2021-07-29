@@ -1,6 +1,5 @@
 const Users = require('../users/users-model');
-// const jwt = require('jsonwebtoken');
-// const { jwtSecret } = require('../../config/secret');
+
 
 const checkRegisterPayload = (req, res, next) => {
     if(!req.body.User_name || !req.body.password || !req.body.phoneNumber) {
@@ -69,6 +68,7 @@ const restricted = (req, res, next) => {
 }
 
 module.exports = {
+    makeToken,
     checkRegisterPayload,
     checkLoginPayload,
     userIdExists,
