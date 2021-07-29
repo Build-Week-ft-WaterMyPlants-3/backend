@@ -13,7 +13,7 @@ function getBy(filter) {
 }
 
 async function createUser(userToAdd) {
-  return await db("Users").insert(userToAdd, "UserId", "User_name", "phoneNumber");
+  return await db("Users").insert(userToAdd, ["UserId", "User_name", "phoneNumber"]);
 }
 
 async function updateUserByUserId(UpdatedUser) {
@@ -25,15 +25,6 @@ async function deleteUserByUserId(UserIdToRemove) {
   await db("Users").where("UserId", UserIdToRemove).del();
   return getAllUsers();
 }
-
-// function getUsersClasses(UserId){
-
-//     return db("UsersClasses As UC")
-//     .join("Users As U", "UC.UserId", "U.UserId")
-//     .join("Classes As C", "UC.ClassId", "C.ClassId")
-//     .select("U.UserId", "U.User_Username", "UC.ClassId", "C.Name")
-//     .where("U.UserId", UserId)
-// }
 
 module.exports = {
   getAllUsers,
