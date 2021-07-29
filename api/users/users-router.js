@@ -70,7 +70,7 @@ router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
         const token = makeToken(user);
         res.status(200).json({
           user: user,
-          message: `Welcome, ${user.User_rname}`,
+          message: `Welcome, ${user.User_name}`,
           token,
         });
       } else {
