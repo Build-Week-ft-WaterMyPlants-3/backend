@@ -27,7 +27,7 @@ const userIdExists = (req, res, next) => {
 
 const usernameExists = async (req, res, next) => {
     try {
-        const rows = await Users.getByUserId({ User_name: req.body.User_name })
+        const rows = await Users.getUserByUserId({ User_name: req.body.User_name })
         if(rows.length) {
             next()
         } else {
@@ -37,6 +37,19 @@ const usernameExists = async (req, res, next) => {
         res.status(500).json({ message: error.message })
     }
 }
+
+// const usernameUnique = async (req, res, next) => {
+//     try {
+//         const rows = await Users.getByUserId({ User_name: req.body.User_name })
+//         if(!rows.length) {
+//             next()
+//         } else {
+//             res.status(401).json({ message: 'Username Already Taken' })
+//         }
+//     } catch(error) {
+//         res.status(500).json({ message: error.message })
+//     }
+// }
 
 const restricted = (req, res, next) => {
     const token = req.headers.authorization;
