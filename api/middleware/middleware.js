@@ -29,7 +29,7 @@ const userIdExists = (req, res, next) => {
 
 const usernameExists = async (req, res, next) => {
     try {
-        const rows = await Users.getUserByUserId({ User_name: req.body.User_name })
+        const rows = await Users.getBy({ User_name: req.body.User_name })
         if(rows.length) {
             next()
         } else {
@@ -71,7 +71,6 @@ const restricted = (req, res, next) => {
 }
 
 module.exports = {
-    makeToken,
     checkRegisterPayload,
     checkLoginPayload,
     userIdExists,

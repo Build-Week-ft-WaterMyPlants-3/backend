@@ -46,7 +46,6 @@ router.post("/register", mw.checkRegisterPayload, (req, res) => {
     });
 });
 
-// middleware suggested for router.post /login: middleware.checkLoginPayload, middleware.usernameExists,
 //[POST] Login As A User
 router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
   let { User_name, password } = req.body;
@@ -56,7 +55,6 @@ router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user);
         res.status(200).json({
-          user: user,
           message: `Welcome, ${user.User_name}`,
           token,
         });
