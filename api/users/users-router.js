@@ -1,22 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
-const Users = require("./users-model");
+const Users = require("./users-model.js");
 const mw = require("../middleware/middleware");
-const { jwtSecret } = require("../../config/secret");
-
-//TokenMaker
-const makeToken = (user) => {
-  const payload = {
-    subject: user.UserId,
-    username: user.Username,
-  };
-  const options = {
-    expiresIn: "1h",
-  };
-  return jwt.sign(payload, jwtSecret, options);
-};
+const makeToken = require('../middleware/tokenBuilder')
 
 //ENDPOINTS
 //[GET] All Users
@@ -70,7 +57,7 @@ router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
         const token = makeToken(user);
         res.status(200).json({
           user: user,
-          message: `Welcome, ${user.User_rname}`,
+          message: `Welcome, ${user.User_name}`,
           token,
         });
       } else {
