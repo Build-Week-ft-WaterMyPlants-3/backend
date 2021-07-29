@@ -51,18 +51,14 @@ router.put("/:plantId", (req, res) => {
 router.post("/", (req, res) => {
   const newPlant = req.body;
 
-  if (newPlant.plantId && newPlant.nickname) {
-    if (typeof newPlant.plantId === "number") {
-      Plants.addPlant(newPlant)
-        .then((newestPlant) => {
-          res.status(200).json(newestPlant[0]);
-        })
-        .catch((err) => {
-          res.status(500).json({ message: err.message });
-        });
-    } else {
-      res.status(406).json({ message: "PlantId Must Be A Number" });
-    }
+  if (newPlant.nickname) {
+    Plants.addPlant(newPlant)
+      .then((newestPlant) => {
+        res.status(200).json(newestPlant);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: err.message });
+      });
   } else {
     res.status(406).json({ message: "PlantId And Name Are Required" });
   }

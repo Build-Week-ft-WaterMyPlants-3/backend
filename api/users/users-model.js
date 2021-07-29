@@ -17,8 +17,7 @@ async function createUser(userToAdd) {
 }
 
 async function updateUserByUserId(UpdatedUser) {
-  await db("Users").where("UserId", UpdatedUser.UserId).update(UpdatedUser);
-  return getUserByUserId(UpdatedUser.UserId);
+  return await db("Users").where("UserId", UpdatedUser.UserId).update(UpdatedUser, ["UserId", "User_name", "phoneNumber", "updated_at"]);
 }
 
 async function deleteUserByUserId(UserIdToRemove) {
