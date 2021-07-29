@@ -67,15 +67,15 @@ router.post("/register", (req, res) => {
 // middleware suggested for router.post /login: middleware.checkLoginPayload, middleware.usernameExists,
 //[POST] Login As A User
 router.post("/login", (req, res) => {
-  let { username, password } = req.body;
+  let { User_name, password } = req.body;
 
-  Users.getBy({ username })
+  Users.getBy({ User_name })
     .then(([user]) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user);
         res.status(200).json({
           user: user,
-          message: `Welcome, ${user.User_Username}`,
+          message: `Welcome, ${user.User_rname}`,
           token,
         });
       } else {
@@ -91,7 +91,7 @@ router.post("/login", (req, res) => {
 router.put("/:UserId", (req, res) => {
   const updatedUser = req.body;
 
-  if (updatedUser.UserId && updatedUser.Username) {
+  if (updatedUser.User_name) {
     if (typeof updatedUser.UserId === "number") {
       Users.updateUserByUserId(updatedUser)
         .then((update) => {
@@ -104,7 +104,7 @@ router.put("/:UserId", (req, res) => {
       res.status(406).json({ message: "UserId Must Be A Number" });
     }
   } else {
-    res.status(406).json({ message: "UserId And Name Are Required" });
+    res.status(406).json({ message: "Name is Required" });
   }
 });
 

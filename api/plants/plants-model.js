@@ -15,8 +15,7 @@ async function updatePlantByPlantId(UpdatedPlant) {
 }
 
 async function addPlant(plantToAdd) {
-  const newplant = await db("Plants").insert(plantToAdd);
-  return newplant;
+  return await db("Plants").insert(plantToAdd, ["plantId", "nickname", "species", "h2oFrequency"]);
 }
 
 async function deletePlant(plantId) {
