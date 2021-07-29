@@ -121,17 +121,17 @@ router.delete("/:UserId", (req, res) => {
     });
 });
 
-//[GET] Users Classes
-router.get("/:UserId/classes", (req, res) => {
-  const { UserId } = req.params;
+// //[GET] Users Classes
+// router.get("/:UserId/classes", (req, res) => {
+//   const { UserId } = req.params;
 
-  Users.getUsersClasses(UserId)
-    .then((allClasses) => {
-      res.status(200).json(allClasses);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: err.message });
-    });
-});
+//   Users.getUsersClasses(UserId)
+//     .then((allClasses) => {
+//       res.status(200).json(allClasses);
+//     })
+//     .catch((err) => {
+//       res.status(500).json({ message: err.message });
+//     });
+// });
 
 module.exports = router;

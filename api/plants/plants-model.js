@@ -1,36 +1,33 @@
 const db = require("../data/dbConfig");
 
-
-function getAllPlants(){
-    return db("Plants")
+function getAllPlants() {
+  return db("Plants");
 }
 
-function getByPlantId(PlantId){
-    return db("Plants")
-            .where("PlantId", PlantId)
+function getByPlantId(PlantId) {
+  return db("Plants").where("plantId", PlantId);
 }
 
-async function updatePlantByPlantId(UpdatedPlant){
-    await db("Plants")
-            .where("PlantId", PlantId)
-            .update(UpdatedPlant)
+async function updatePlantByPlantId(UpdatedPlant) {
+  await db("Plants").where("plantId", UpdatedPlant.plantId).update(UpdatedPlant);
 
-    return getByPlantId(UpdatedPlant.PlantId)
+  return getByPlantId(UpdatedPlant.plantId);
 }
 
- async function addPlant(plantToAdd){
-    const plantToAddId = await db("Plants")
-            .insert(plantToAdd)
-    return plantToAddId;
+async function addPlant(plantToAdd) {
+  const newplant = await db("Plants").insert(plantToAdd);
+  return newplant;
 }
 
-async function deletePlantByPlantId(PlantId){
-    await db("Plants")
-            .where("PlantId", PlantId)
-            .del()
-    return getAllPlants()
+async function deletePlant(plantId) {
+  await db("Plants").where("plantId", plantId).del();
+  return getAllPlants();
 }
 
 module.exports = {
-    getAllPlants, getByPlantId, updatePlantByPlantId, addPlant, deletePlantByPlantId
-}
+  getAllPlants,
+  getByPlantId,
+  updatePlantByPlantId,
+  addPlant,
+  deletePlant,
+};

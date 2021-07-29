@@ -1,50 +1,45 @@
 const db = require("../data/dbConfig");
 
-
-function getAllUsers(){
-    return db("Users");
+function getAllUsers() {
+  return db("Users");
 }
 
-function getUserByUserId(UserId){
-    return db("Users")
-        .where("UserId", UserId)
+function getUserByUserId(UserId) {
+  return db("Users").where("UserId", UserId);
 }
 
 function getBy(filter) {
-    return db("Users as U")
-      .select("U.UserId", "U.User_Username")
-      .where(filter);
+  return db("Users as U").select("U.UserId", "U.User_name").where(filter);
 }
 
-async function createUser(userToAdd){
-    const userToAddId = await db("Users")
-            .insert(userToAdd)
-    return getUserByUserId(userToAddId);
+async function createUser(userToAdd) {
+  return await db("Users").insert(userToAdd, "UserId", "User_name", "phoneNumber");
 }
 
-async function updateUserByUserId(UpdatedUser){
-    await db("Users")
-        .where("UserId", UpdatedUser.UserId)
-        .update(UpdatedUser)
-    return getUserByUserId(UpdatedUser.UserId);
+async function updateUserByUserId(UpdatedUser) {
+  await db("Users").where("UserId", UpdatedUser.UserId).update(UpdatedUser);
+  return getUserByUserId(UpdatedUser.UserId);
 }
 
-async function deleteUserByUserId(UserIdToRemove){
-    await db("Users")
-        .where("UserId", UserIdToRemove)
-        .del()
-    return getAllUsers();
+async function deleteUserByUserId(UserIdToRemove) {
+  await db("Users").where("UserId", UserIdToRemove).del();
+  return getAllUsers();
 }
 
-function getUsersClasses(UserId){
+// function getUsersClasses(UserId){
 
-    return db("UsersClasses As UC")
-    .join("Users As U", "UC.UserId", "U.UserId")
-    .join("Classes As C", "UC.ClassId", "C.ClassId")
-    .select("U.UserId", "U.User_Username", "UC.ClassId", "C.Name")
-    .where("U.UserId", UserId)
-}
+//     return db("UsersClasses As UC")
+//     .join("Users As U", "UC.UserId", "U.UserId")
+//     .join("Classes As C", "UC.ClassId", "C.ClassId")
+//     .select("U.UserId", "U.User_Username", "UC.ClassId", "C.Name")
+//     .where("U.UserId", UserId)
+// }
 
 module.exports = {
-  getAllUsers, getUserByUserId, getBy, createUser, updateUserByUserId, deleteUserByUserId, getUsersClasses
-}
+  getAllUsers,
+  getUserByUserId,
+  getBy,
+  createUser,
+  updateUserByUserId,
+  deleteUserByUserId,
+};

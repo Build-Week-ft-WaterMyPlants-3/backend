@@ -11,7 +11,7 @@ server.use(helmet());
 server.use(cors());
 
 server.use("/api/users", usersRouter);
-server.use("/api/classes", plantsRouter);
+server.use("/api/plants", plantsRouter);
 
 //SANITY CHECK ENDPOINT
 // server.get("/", (req, res, next)=>{
