@@ -9,7 +9,7 @@ function getUserByUserId(UserId) {
 }
 
 function getBy(filter) {
-  return db("Users as U").select("U.UserId", "U.User_name").where(filter);
+  return db("Users as U").where(filter);
 }
 
 async function createUser(userToAdd) {
