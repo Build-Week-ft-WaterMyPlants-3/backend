@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Users = require("./users-model");
-// const middleware = require("../middleware/middleware");
+const mw = require("../middleware/middleware");
 const { jwtSecret } = require("../../config/secret");
 
 //TokenMaker
@@ -31,25 +31,20 @@ router.get("/", (req, res) => {
 });
 
 //[GET] User By UserId
-router.get("/:UserId", (req, res) => {
-  const { UserId } = req.params;
+router.get("/:UserId", mw.userIdExists, (req, res) => {
 
-  if (UserId) {
-    Users.getUserByUserId(req.params.UserId)
+  Users.getUserByUserId(req.params.UserId)
       .then((specificUser) => {
         res.status(200).json(specificUser);
       })
       .catch((err) => {
         res.status(500).json({ message: err.message });
       });
-  } else {
-    res.status(406).json({ message: "User Id Required" });
-  }
 });
 
 // middleware suggested for router.post /register: middleware.checkRegisterPayload, middleware.usernameUnique
 //[POST] Register As A User
-router.post("/register", (req, res) => {
+router.post("/register", mw.checkRegisterPayload, (req, res) => {
   let credentials = req.body;
   const rounds = process.env.BCRYPT_ROUNDS || 8;
   const hash = bcrypt.hashSync(credentials.password, rounds);
@@ -66,7 +61,7 @@ router.post("/register", (req, res) => {
 
 // middleware suggested for router.post /login: middleware.checkLoginPayload, middleware.usernameExists,
 //[POST] Login As A User
-router.post("/login", (req, res) => {
+router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
   let { User_name, password } = req.body;
 
   Users.getBy({ User_name })
