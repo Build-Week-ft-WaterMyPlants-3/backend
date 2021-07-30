@@ -20,10 +20,11 @@ const checkLoginPayload = (req, res, next) => {
 };
 
 const userIdExists = (req, res, next) => {
-  if (!req.body.UserId) {
+  if (!req.params.UserId) {
     res.status(400).json({ message: "Incomplete Request" });
     //Don't Want To Reveal Id Issue Explicitly
   }
+  next();
 };
 
 const usernameExists = async (req, res, next) => {

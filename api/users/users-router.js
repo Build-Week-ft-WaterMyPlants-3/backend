@@ -64,11 +64,16 @@ router.post("/login", mw.checkLoginPayload, mw.usernameExists, (req, res) => {
 
 //[PUT] Update User By UserId
 router.put("/:UserId", (req, res) => {
-  const updatedUser = req.body;
-
-  if (updatedUser.User_name) {
-    if (typeof updatedUser.UserId === "number") {
-      Users.updateUserByUserId(updatedUser)
+  const { User_name, password, phoneNumber } = req.body;
+  const userId = Number(req.params.UserId);
+  if (User_name) {
+    if (typeof userId === "number") {
+      Users.updateUserByUserId({
+        UserId: userId,
+        User_name: User_name,
+        password: password,
+        phoneNumber: phoneNumber,
+      })
         .then((update) => {
           res.status(200).json(update);
         })
